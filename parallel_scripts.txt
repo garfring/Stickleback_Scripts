@@ -1,0 +1,74 @@
+##impute plink file with linkimpute
+#Need to add unique number to first column
+
+awk '{$1=$1"_"NR; print}' file > file2 
+
+java -jar LinkImpute.jar -q file.plink.ped file.imputed.plink.ped
+
+
+###count alleles, e.g. for A
+perl -lane '$.== 1 && print scalar grep /^A$/, @F' batch1.plink.imputed.ped
+5698
+
+grep -v '#' batch_1.sumstats.tsv | cut -f2 | sort -u | wc -l
+87125
+
+##Use summstats.tsv file and isolate column with locus ID, bring into R and get unique IDs (ID's repeat/number of populations)
+loci <- read.table("sumstats.txt", header = T)
+uniqloci <- unique(loci)
+uniqloci
+write.table(uniqloci, "C:/Users/User/Desktop/genome_scan/A/uniqloci.txt", sep="\t", col.names = FALSE, row.names = FALSE)
+
+##run genome scan and get file with outliers
+##use sed to get locus IDs for the outliers
+
+sed 's/.*/&p/g' whitelist.txt >whitelist2.txt
+sed -nf whitelist2.txt list.txt > IDlist.txt
+
+##check for overlap between methods or transects with unix or dplyr
+
+awk 'NR==FNR{a[$0]=$0;next}a[$0]' file1 file2 > overlapfile
+
+##or
+
+overlap <- inner_join(list1,list2, by="X1")
+
+##get fasta sequences with some description information from tags.tsv file
+awk 'NR==FNR{ a[$0]++; next }{ if ($3 in a) { 
+     $0=">"$3 FS $4 FS $5 FS $6 FS $11 FS $12 FS $13 FS $14 RS $10; print}}' outlierID.txt batch_1.catalog.tags.tsv > outlier_FASTA.fa
+	 
+##change gff file to tab delimited 
+
+cat 'file.gff3'  | tr '[;]' '[\t]' > new_gff.tsv
+
+### extract protein coding genes from gff file using string in file 1. File 1 has "gene_biotype=protein_coding", or 
+while read line; do   grep "${line}" new_gff.txt; done < protein_coding.txt > prot_true.txt
+
+##GO 
+while read -r id pos; do awk -v id="$id" -v pos="$pos" '$1 == id && pos > $4 && pos < $5 { if (gensub(/.*gene=([A-Za-z0-9]*).*/, "\\1", 1) !~ /\s/) print gensub(/.*gene=([A-Za-z0-9]*).*/, "\\1", 1); }' <new_gff.txt; done <A_SNP_scaff_pos.txt > A_gene_hits.txt
+
+##keep unique entries in same order
+perl -ne 'print if ++$k{$_}==1' A_gene_hits.txt > A_genes
+
+## remove duplicated snps under different catalog ID
+awk '!seen[$1,$2]++' snp_pos_catalog.txt > unique_snps.txt
+
+###randomize snps
+B_loci <- read.table("B_loci.txt", header = F)
+
+B_loci_random <- B_loci[sample(nrow(B_loci)),]
+write.table(B_loci_random, "C:/Users/User/Desktop/genome_scan/B/B4/B_genes/B_snps_random.txt", sep="\t", col.names = FALSE, row.names = FALSE)
+A_loci_random
+
+##get unique snps
+B_snps <- read.table("snp_pos.txt"  , header = F)
+
+B_uniq_snps <- unique(B_snps)
+write.table(B_uniq_snps, "unique_snpsR.txt", sep="\t", col.names = FALSE, row.names = FALSE)
+
+##count number of snps per gene
+sort genic_snps.txt | uniq --count > snps_per_gene.txt
+
+##get unique values from 2 files
+awk 'FNR==NR {a[$0]++; next} !a[$0]' file1 file2
+awk 'FNR==NR {a[$0]++; next} !a[$0]' file2 file1
