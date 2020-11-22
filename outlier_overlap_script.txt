@@ -1,0 +1,7 @@
+awk -vtc=3 'NR==1{next};
+             NR==2{for(i=2;i<=NF;i++){t[i]=0}};
+             {for(i=2;i<=NF;i++){if($i=="TRUE"){t[i]++}}}
+             END{
+                 for(j in t)
+                 if(t[j]>=tc){print(j,t[j])}
+             }' FST_outliers.tsv > EC_3up.tsv
