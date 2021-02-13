@@ -1,4 +1,4 @@
-### script for finding SNPs within genes
+### script for finding SNPs within genes.
 while read -r id pos
 do
 awk -v id=$id -v pos=$pos -f gene_hits.awk stick_prot_cod_names_tab.tsv
