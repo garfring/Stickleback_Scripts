@@ -2,4 +2,4 @@
 while read -r id pos
 do
 awk -v id=$id -v pos=$pos -f gene_hits.awk stick_prot_cod_names_tab.tsv
-done < fst_3up_pos.tsv > output_genehits.tsv
+done < fst_outlier_posistion_2up.tsv > output_genehits.tsv
