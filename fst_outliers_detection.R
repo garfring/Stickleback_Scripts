@@ -31,12 +31,21 @@ row.names(FST_pairs) <- c("Waddell","Lombardi",
 
 ###OUTLIER DETECTION using all windows
 FSToutliers_95 <- FST_pairs > apply(FST_all, 1, quantile, probs = 0.95, na.rm = T) # This identifies SNPs whose FST fall within the 5% estimate of being an outlier (SNPs in columns, pops in rows)
-# FSToutliers_99 <- FST_pairs > apply(FST_all, 1, quantile, probs = 0.99, na.rm = T) # This identifies SNPs whose FST fall within the 1% estimate of being an outlier (SNPs in columns, pops in rows)
-
-
-##chromosome info
-colnames(FSToutliers_95) <- FST_all_info$V1
-#colnames(FSToutliers_99) <- FST_all_info$V1
+#FSToutliers_99 <- FST_pairs > apply(FST_all, 1, quantile, probs = 0.99, na.rm = T) # This identifies SNPs whose FST fall within the 1% estimate of being an outlier (SNPs in columns, pops in rows)
 
 write.table(FSToutliers_95,"FST_outliers_95_v1.tsv", col.names = T, row.names = F, quote = F)
 #write.table(FSToutliers_99,"FST_outliers_99.tsv", col.names = T, row.names = F, quote = F)
+                             
+# Get outliers that overlap across N (e.g. 2 or more) population comparisons ----------
+par_2up <- read.table("FSToutliers_ns_nf_95_overlap_2up.tsv")
+head(par_2up)
+par_2up_index <- par_2up$V1
+
+chromosome <- FST_all_info$V1[par_2up_index] # chromosome position for outlier
+snp_pos <- FST_all_info$V2[par_2up_index] # SNP position for outlier
+num_est_outlier <- par_2up$V2 # number of estuaries (out of 6) that the snp is an outlier in
+
+fst_outlier_2up <- as.data.frame(cbind(chromosome, snp_pos, num_est_outlier))
+head(fst_outlier_2up)
+dim(fst_outlier_2up)
+write.table(fst_outlier_2up,"fst_outlier_pos_3up_ns_nf_top5.tsv", col.names = F, row.names = F,quote = F)
