@@ -5,4 +5,4 @@ awk -vtc=2 'NR==1{next};
              END{
                  for(j in t)
                  if(t[j]>=tc){print(j,t[j])}
-             }' FST_outliers.tsv > outlier_overlap_2up.tsv
+             }' FST_outliers_output_example_for_overlap_scan.tsv > outlier_overlap_2up.tsv
