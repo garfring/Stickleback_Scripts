@@ -1,4 +1,5 @@
 #Program used to find genic SNPs or SNPs within a specified distance up and downstream of the SNP. Returns list of genes and relevant SNP. 
+#Uses the the SNP (chrm + pos) and the genic interval (chrm + pos of gene start, chrm + pos of gene end) to find SNPs within or near protein-coding genes.
 #The fourth element of the within_range function specifies the distance: Eg: '0' for genic SNPs, 500 for genes within 500 bps of SNP.
 function within_range(val, lower, upper, proximity) {
     # you can specify the "proximity" as required
