@@ -1,4 +1,4 @@
-# Scripts used to look for evidence of parallel selection in stickleback
+# Scripts used in analysis estuary stickleback genomic data (Garcia-Elfring et al. 2021)
 
 
 ## Resources
