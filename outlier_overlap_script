@@ -1,4 +1,4 @@
-#Uses fst scan output to look for SNPs that are outliers (i.g., top 5% of Fst distribution) in n or more (-vtc=) Fst comparisons.
+#Uses fst scan output to look for SNPs that are outliers (i.g., top 5% of Fst distribution) in n or more (-vtc=) Fst comparisons. Takes as input logical data frame where TRUE values correspond to oulier loci.
 awk -vtc=2 'NR==1{next};
              NR==2{for(i=2;i<=NF;i++){t[i]=0}};
              {for(i=2;i<=NF;i++){if($i=="TRUE"){t[i]++}}}
