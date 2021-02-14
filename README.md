@@ -1,4 +1,4 @@
-# Scripts used in analysis estuary stickleback genomic data (Garcia-Elfring et al. 2021)
+# Scripts used in analysis of genomic data from estuary stickleback from California (Garcia-Elfring et al. 2021, accepted in *Molecular Ecology*) and eastern North America (in prep). 
 
 
 ## Resources
