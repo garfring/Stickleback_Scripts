@@ -1,4 +1,5 @@
-# Scripts used in analysis of genomic data from estuary stickleback from California (Garcia-Elfring et al. 2021, accepted in *Molecular Ecology*) and eastern North America (in prep). 
+Scripts used to look for evidence of parallel selection in stickleback
+================
 
 
 ## Resources
@@ -80,7 +81,7 @@ head(fst_outlier_2up)
 dim(fst_outlier_2up)
 write.table(fst_outlier_2up,"fst_outlier_posistion_2up.tsv", col.names = F, row.names = F,quote = F)
 ```
-4. **Find genic SNPs or SNPs near genes**: 
+4. **Find genes with outliers or genes near outliers**: 
 
 ```{bash}
 ### script for finding SNPs within genes.
