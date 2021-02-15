@@ -79,14 +79,17 @@ num_est_outlier <- par_2up$V2 # number of comparisons that the SNP is an outlier
 fst_outlier_2up <- as.data.frame(cbind(chromosome, snp_pos, num_est_outlier))
 head(fst_outlier_2up)
 dim(fst_outlier_2up)
-write.table(fst_outlier_2up,"fst_outlier_posistion_2up.tsv", col.names = F, row.names = F,quote = F)
+write.table(fst_outlier_2up,"fst_outlier_2up.tsv", col.names = F, row.names = F,quote = F)
 ```
 4. **Find genes with outliers or genes near outliers**: 
 
 ```{bash}
+#only need the locus information (chrm and SNP pos)
+awk '{print $1, $2}' fst_outlier_2up.tsv > fst_outlier_2up_pos.tsv
+
 ### script for finding SNPs within genes.
 while read -r id pos
 do
 awk -v id=$id -v pos=$pos -f gene_hits.awk stick_prot_cod_names_tab.tsv
-done < fst_outlier_posistion_2up.tsv > output_genehits.tsv
+done < fst_outlier_2up_pos.tsv > output_genehits.tsv
 ```
