@@ -8,6 +8,9 @@ Scripts used to look for evidence of parallel selection in stickleback
 
 [Popoolation2](https://sourceforge.net/p/popoolation2/wiki/Main/)
 
+## Dara
+Synchronized file can be found [here](https://datadryad.org/stash/dataset/doi:10.5061/dryad.fbg79cntg). This file contains allele frequency information from reads that have been  filtered for sequence quality (20), mapping quality (20), and minimum length (50 bp).
+
 ## Pipeline
 
 1. **Outlier scan** : 
